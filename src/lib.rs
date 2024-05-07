@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 pub trait Check {
     fn check(&self, arg: i32) -> bool;
 }
@@ -12,6 +14,10 @@ impl Check for TypeCheck {
     }
 }
 
+pub fn check_trait(check: Arc<Box<dyn Check>>, arg: i32) -> bool {
+    check.check(arg)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -23,7 +29,7 @@ mod tests {
 
     #[test]
     fn type_check() {
-        let check:Arc<Box<dyn Check>> = Arc::new(Box::new(TypeCheck { level: 12 }));
+        let check: Arc<Box<dyn Check>> = Arc::new(Box::new(TypeCheck { level: 12 }));
 
         assert!(check.check(11));
         as_check(check);
