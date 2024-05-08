@@ -10,7 +10,8 @@ struct TypeCheck {
 
 impl Check for TypeCheck {
     fn check(&self, arg: i32) -> bool {
-        self.level > arg
+        let level = if self.level > 0 { self.level } else { 1 };
+        level > arg
     }
 }
 
